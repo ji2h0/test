@@ -4,7 +4,11 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
+from kivy.core.window import Window
 from ai import AI
+
+fontName = 'Dongle-Light.ttf'
+Window.clearcolor = (204/255, 204/255, 1)
 
 SHAPES = ('X', 'O')
 
@@ -34,6 +38,9 @@ class Board(GridLayout):
     def __init__(self, **kwargs):
         super(Board, self).__init__(**kwargs)
 
+        self.padding = [0, Window.height / 6, 0, Window.height / 6]
+        self.spacing = [Window.width / 150, Window.width / 150]
+
         self.cols = 3
         self.rows = 3
         self.shapes = turn_generator()
@@ -49,54 +56,63 @@ class Board(GridLayout):
         if self.bot.shape == 'X':
             (x, y) = self.bot.move(data, re)
             self.grid[y][x].text = next(self.shapes)
-            self.grid[y][x].font_size = 100
-            self.grid[y][x].color = (12/255, 12/255, 12/255)
+            self.grid[y][x].font_size = Window.height / 6.1
+            self.grid[y][x].color = (25/255, 25/255, 25/255)
             data[x][y] = 1
             re.append([x, y])
 
     def draw_tiles(self):
 
-        tile1 = Button(background_color=(0.8, 0.8, 1), font_size=100)
+        tile1 = Button(background_normal='', background_color=(153/255, 153/255, 1),
+                       font_size=Window.height / 6.1, font_name=fontName)
         tile1.bind(on_press=self.pressed1)
         self.grid[0][0] = tile1
         self.add_widget(tile1)
 
-        tile2 = Button(background_color=(0.8, 0.8, 1), font_size=100)
+        tile2 = Button(background_normal='', background_color=(153/255, 153/255, 1),
+                       font_size=Window.height / 6.1, font_name=fontName)
         tile2.bind(on_press=self.pressed2)
         self.grid[1][0] = tile2
         self.add_widget(tile2)
 
-        tile3 = Button(background_color=(0.8, 0.8, 1), font_size=100)
+        tile3 = Button(background_normal='', background_color=(153/255, 153/255, 1),
+                       font_size=Window.height / 6.1, font_name=fontName)
         tile3.bind(on_press=self.pressed3)
         self.grid[2][0] = tile3
         self.add_widget(tile3)
 
-        tile4 = Button(background_color=(0.8, 0.8, 1), font_size=100)
+        tile4 = Button(background_normal='', background_color=(153/255, 153/255, 1),
+                       font_size=Window.height / 6.1, font_name=fontName)
         tile4.bind(on_press=self.pressed4)
         self.grid[0][1] = tile4
         self.add_widget(tile4)
 
-        tile5 = Button(background_color=(0.8, 0.8, 1), font_size=100)
+        tile5 = Button(background_normal='', background_color=(153/255, 153/255, 1),
+                       font_size=Window.height / 6.1, font_name=fontName)
         tile5.bind(on_press=self.pressed5)
         self.grid[1][1] = tile5
         self.add_widget(tile5)
 
-        tile6 = Button(background_color=(0.8, 0.8, 1), font_size=100)
+        tile6 = Button(background_normal='', background_color=(153/255, 153/255, 1),
+                       font_size=Window.height / 6.1, font_name=fontName)
         tile6.bind(on_press=self.pressed6)
         self.grid[2][1] = tile6
         self.add_widget(tile6)
 
-        tile7 = Button(background_color=(0.8, 0.8, 1), font_size=100)
+        tile7 = Button(background_normal='', background_color=(153/255, 153/255, 1),
+                       font_size=Window.height / 6.1, font_name=fontName)
         tile7.bind(on_press=self.pressed7)
         self.grid[0][2] = tile7
         self.add_widget(tile7)
 
-        tile8 = Button(background_color=(0.8, 0.8, 1), font_size=100)
+        tile8 = Button(background_normal='', background_color=(153/255, 153/255, 1),
+                       font_size=Window.height / 6.1, font_name=fontName)
         tile8.bind(on_press=self.pressed8)
         self.grid[1][2] = tile8
         self.add_widget(tile8)
 
-        tile9 = Button(background_color=(0.8, 0.8, 1), font_size=100)
+        tile9 = Button(background_normal='', background_color=(153/255, 153/255, 1),
+                       font_size=Window.height / 6.1, font_name=fontName)
         tile9.bind(on_press=self.pressed9)
         self.grid[2][2] = tile9
         self.add_widget(tile9)
@@ -108,7 +124,7 @@ class Board(GridLayout):
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[0][0] = 1
-            instance.color = (12/255, 12/255, 12/255)
+            instance.color = (25/255, 25/255, 25/255)
         else:
             data[0][0] = 10
             instance.color = (220/255, 220/255, 220/255)
@@ -119,7 +135,7 @@ class Board(GridLayout):
             re.append([x, y])
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
-                self.grid[y][x].color = (12/255, 12/255, 12/255)
+                self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
@@ -132,7 +148,7 @@ class Board(GridLayout):
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[0][1] = 1
-            instance.color = (12/255, 12/255, 12/255)
+            instance.color = (25/255, 25/255, 25/255)
         else:
             data[0][1] = 10
             instance.color = (220/255, 220/255, 220/255)
@@ -143,7 +159,7 @@ class Board(GridLayout):
             re.append([x, y])
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
-                self.grid[y][x].color = (12/255, 12/255, 12/255)
+                self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
@@ -156,7 +172,7 @@ class Board(GridLayout):
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[0][2] = 1
-            instance.color = (12/255, 12/255, 12/255)
+            instance.color = (25/255, 25/255, 25/255)
         else:
             data[0][2] = 10
             instance.color = (220/255, 220/255, 220/255)
@@ -167,7 +183,7 @@ class Board(GridLayout):
             re.append([x, y])
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
-                self.grid[y][x].color = (12/255, 12/255, 12/255)
+                self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
@@ -180,7 +196,7 @@ class Board(GridLayout):
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[1][0] = 1
-            instance.color = (12/255, 12/255, 12/255)
+            instance.color = (25/255, 25/255, 25/255)
         else:
             data[1][0] = 10
             instance.color = (220/255, 220/255, 220/255)
@@ -191,7 +207,7 @@ class Board(GridLayout):
             re.append([x, y])
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
-                self.grid[y][x].color = (12/255, 12/255, 12/255)
+                self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
@@ -204,7 +220,7 @@ class Board(GridLayout):
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[1][1] = 1
-            instance.color = (12/255, 12/255, 12/255)
+            instance.color = (25/255, 25/255, 25/255)
         else:
             data[1][1] = 10
             instance.color = (220/255, 220/255, 220/255)
@@ -215,7 +231,7 @@ class Board(GridLayout):
             re.append([x, y])
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
-                self.grid[y][x].color = (12/255, 12/255, 12/255)
+                self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
@@ -228,7 +244,7 @@ class Board(GridLayout):
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[1][2] = 1
-            instance.color = (12/255, 12/255, 12/255)
+            instance.color = (25/255, 25/255, 25/255)
         else:
             data[1][2] = 10
             instance.color = (220/255, 220/255, 220/255)
@@ -239,7 +255,7 @@ class Board(GridLayout):
             re.append([x, y])
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
-                self.grid[y][x].color = (12/255, 12/255, 12/255)
+                self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
@@ -252,7 +268,7 @@ class Board(GridLayout):
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[2][0] = 1
-            instance.color = (12/255, 12/255, 12/255)
+            instance.color = (25/255, 25/255, 25/255)
         else:
             data[2][0] = 10
             instance.color = (220/255, 220/255, 220/255)
@@ -263,7 +279,7 @@ class Board(GridLayout):
             re.append([x, y])
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
-                self.grid[y][x].color = (12/255, 12/255, 12/255)
+                self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
@@ -276,7 +292,7 @@ class Board(GridLayout):
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[2][1] = 1
-            instance.color = (12/255, 12/255, 12/255)
+            instance.color = (25/255, 25/255, 25/255)
         else:
             data[2][1] = 10
             instance.color = (220/255, 220/255, 220/255)
@@ -287,7 +303,7 @@ class Board(GridLayout):
             re.append([x, y])
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
-                self.grid[y][x].color = (12 / 255, 12 / 255, 12 / 255)
+                self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220 / 255, 220 / 255, 220 / 255)
@@ -300,7 +316,7 @@ class Board(GridLayout):
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[2][2] = 1
-            instance.color = (12/255, 12/255, 12/255)
+            instance.color = (25/255, 25/255, 25/255)
         else:
             data[2][2] = 10
             instance.color = (220/255, 220/255, 220/255)
@@ -311,7 +327,7 @@ class Board(GridLayout):
             re.append([x, y])
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
-                self.grid[y][x].color = (12 / 255, 12 / 255, 12 / 255)
+                self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220 / 255, 220 / 255, 220 / 255)
@@ -324,10 +340,12 @@ class Board(GridLayout):
         if winner:
             content = BoxLayout(orientation='vertical')
             if winner == 'D':
-                content.add_widget(Label(text='      Draw\nYou : %d  AI : %d' % (who_win[0], who_win[1])))
+                content.add_widget(Label(text='      Draw\nYou : %d  AI : %d' % (who_win[0], who_win[1]),
+                                         font_name=fontName, font_size=25))
             else:
-                content.add_widget(Label(text='      %s won\nYou : %d  AI : %d' % (winner, who_win[0], who_win[1])))
-            close_button = Button(text='Play Again')
+                content.add_widget(Label(text='      %s won\nYou : %d  AI : %d' % (winner, who_win[0], who_win[1]),
+                                         font_name=fontName, font_size=25))
+            close_button = Button(text='Play Again', font_name=fontName, font_size=25)
             content.add_widget(close_button)
 
             popup = Popup(title='Game Over', content=content, auto_dismiss=False,
