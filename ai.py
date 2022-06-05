@@ -9,7 +9,6 @@ class AI:
     def move(self, b, re):
         possible_moves = [(x, y) for x in range(3) for y in range(3) if b[x][y] == 0]
         corner = [(0, 0), (0, 2), (2, 0), (2, 2)]
-        side = [(0, 1), (1, 2), (2, 1), (1, 0)]
         check_all_lines = [sum(b[0]), sum(b[1]), sum(b[2]), b[0][0] + b[1][0] + b[2][0],
                            b[0][1] + b[1][1] + b[2][1], b[0][2] + b[1][2] + b[2][2],
                            b[0][0] + b[1][1] + b[2][2], b[2][0] + b[1][1] + b[0][2]]
@@ -202,7 +201,7 @@ class AI:
                 for i in check:
                     if weak_pos.count(i) == m:
                         critical_pos.append(i)
-                return critical_pos[randint(0, len(weak_pos) - 1)]
+                return critical_pos[randint(0, len(critical_pos) - 1)]
 
         def random_ai():
             return possible_moves[randint(0, len(possible_moves) - 1)]
