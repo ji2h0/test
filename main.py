@@ -401,7 +401,7 @@ class Board(GridLayout):
         self.initial_player()
 
 
-class Gomoku(App):
+class TicTacToe(App):
 
     def build(self):
 
@@ -410,4 +410,4 @@ class Gomoku(App):
 
 
 if __name__ == '__main__':
-    Gomoku().run()
+    TicTacToe().run()
