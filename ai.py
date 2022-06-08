@@ -97,6 +97,63 @@ class AI:
                         lose_pos = [(2, 0), (1, 1), (0, 2)]
                     return list(set(lose_pos).intersection(possible_moves))[0]
 
+        def defend_move():
+            weak_pos = []
+            critical_pos = []
+            if self.shape == 'X':
+                typ = 10
+            else:
+                typ = 1
+            for i in range(8):
+                if check_all_lines[i] == typ:
+                    if i == 0:
+                        weak_pos.append((0, 0))
+                        weak_pos.append((0, 1))
+                        weak_pos.append((0, 2))
+                    if i == 1:
+                        weak_pos.append((1, 0))
+                        weak_pos.append((1, 1))
+                        weak_pos.append((1, 2))
+                    if i == 2:
+                        weak_pos.append((2, 0))
+                        weak_pos.append((2, 1))
+                        weak_pos.append((2, 2))
+                    if i == 3:
+                        weak_pos.append((0, 0))
+                        weak_pos.append((1, 0))
+                        weak_pos.append((2, 0))
+                    if i == 4:
+                        weak_pos.append((0, 1))
+                        weak_pos.append((1, 1))
+                        weak_pos.append((2, 1))
+                    if i == 5:
+                        weak_pos.append((0, 2))
+                        weak_pos.append((1, 2))
+                        weak_pos.append((2, 2))
+                    if i == 6:
+                        weak_pos.append((0, 0))
+                        weak_pos.append((1, 1))
+                        weak_pos.append((2, 2))
+                    if i == 7:
+                        weak_pos.append((2, 0))
+                        weak_pos.append((1, 1))
+                        weak_pos.append((0, 2))
+            check = list(set(weak_pos).intersection(possible_moves))
+            if check:
+                m = 0
+                for i in check:
+                    k = weak_pos.count(i)
+                    if k > m:
+                        m = k
+                for i in check:
+                    if weak_pos.count(i) == m:
+                        critical_pos.append(i)
+                if len(critical_pos) == 1:
+                    return critical_pos[0]
+                else:
+                    t = list(x for x in possible_moves if x not in critical_pos)
+                    return t[randint(0, len(t) - 1)]
+
         def attack_move():
             good_pos = []
             best_pos = []
@@ -150,65 +207,12 @@ class AI:
                         best_pos.append(i)
                 return best_pos[randint(0, len(best_pos) - 1)]
 
-        def defend_move():
-            weak_pos = []
-            critical_pos = []
-            if self.shape == 'X':
-                typ = 10
-            else:
-                typ = 1
-            for i in range(8):
-                if check_all_lines[i] == typ:
-                    if i == 0:
-                        weak_pos.append((0, 0))
-                        weak_pos.append((0, 1))
-                        weak_pos.append((0, 2))
-                    if i == 1:
-                        weak_pos.append((1, 0))
-                        weak_pos.append((1, 1))
-                        weak_pos.append((1, 2))
-                    if i == 2:
-                        weak_pos.append((2, 0))
-                        weak_pos.append((2, 1))
-                        weak_pos.append((2, 2))
-                    if i == 3:
-                        weak_pos.append((0, 0))
-                        weak_pos.append((1, 0))
-                        weak_pos.append((2, 0))
-                    if i == 4:
-                        weak_pos.append((0, 1))
-                        weak_pos.append((1, 1))
-                        weak_pos.append((2, 1))
-                    if i == 5:
-                        weak_pos.append((0, 2))
-                        weak_pos.append((1, 2))
-                        weak_pos.append((2, 2))
-                    if i == 6:
-                        weak_pos.append((0, 0))
-                        weak_pos.append((1, 1))
-                        weak_pos.append((2, 2))
-                    if i == 7:
-                        weak_pos.append((2, 0))
-                        weak_pos.append((1, 1))
-                        weak_pos.append((0, 2))
-            check = list(set(weak_pos).intersection(possible_moves))
-            if check:
-                m = 0
-                for i in check:
-                    k = weak_pos.count(i)
-                    if k > m:
-                        m = k
-                for i in check:
-                    if weak_pos.count(i) == m:
-                        critical_pos.append(i)
-                return critical_pos[randint(0, len(critical_pos) - 1)]
-
         def random_ai():
             return possible_moves[randint(0, len(possible_moves) - 1)]
 
         return opening() or \
                winning_position() or \
                losing_position() or \
-               attack_move() or \
                defend_move() or \
+               attack_move() or \
                random_ai()
