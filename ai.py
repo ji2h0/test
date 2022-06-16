@@ -1,4 +1,4 @@
-from random import randint
+from random import choice
 
 
 class AI:
@@ -6,73 +6,95 @@ class AI:
     def __init__(self, shape):
         self.shape = shape
 
-    def move(self, b, re):
-        possible_moves = [(x, y) for x in range(3) for y in range(3) if b[x][y] == 0]
-        corner = [(0, 0), (0, 2), (2, 0), (2, 2)]
+    def outcome(self, b):
         check_all_lines = [sum(b[0]), sum(b[1]), sum(b[2]), b[0][0] + b[1][0] + b[2][0],
                            b[0][1] + b[1][1] + b[2][1], b[0][2] + b[1][2] + b[2][2],
                            b[0][0] + b[1][1] + b[2][2], b[2][0] + b[1][1] + b[0][2]]
+        if self.shape == 'O':
+            v = 3
+            d = 30
+        else:
+            v = 30
+            d = 3
+        for i in range(8):
+            if check_all_lines[i] == d:  # 유저 입장에서의 승패
+                return 'Defeat'
+            if check_all_lines[i] == v:
+                return 'Victory'
+        for i in b:
+            for j in i:
+                if j == 0:
+                    return None
+        return 'Draw'
+
+    def move(self, d, re):
+        b = [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)]
+        possible = [(x, y) for x in range(3) for y in range(3) if d[x][y] == 0]
+        corner = [(0, 0), (0, 2), (2, 0), (2, 2)]
+        check_all_lines = [sum(d[0]), sum(d[1]), sum(d[2]), d[0][0] + d[1][0] + d[2][0],
+                           d[0][1] + d[1][1] + d[2][1], d[0][2] + d[1][2] + d[2][2],
+                           d[0][0] + d[1][1] + d[2][2], d[2][0] + d[1][1] + d[0][2]]
 
         def opening():
             if self.shape == 'X':
                 if len(re) == 0:
-                    return corner[randint(0, 3)]
+                    return choice(corner)
                 if len(re) == 2:
-                    if re[1] == [1, 1]:
-                        good_pos = []
-                        if re[0] == [0, 0]:
-                            good_pos = [(2, 2), (1, 2), (2, 1)]
-                        if re[0] == [0, 2]:
-                            good_pos = [(2, 0), (1, 0), (2, 1)]
-                        if re[0] == [2, 2]:
-                            good_pos = [(0, 0), (0, 1), (1, 0)]
-                        if re[0] == [2, 0]:
-                            good_pos = [(0, 2), (0, 1), (1, 2)]
-                        return good_pos[randint(0, 2)]
+                    if re[1] == b[4]:
+                        good = []
+                        if re[0] == b[0]:
+                            good = [b[5], b[7], b[8]]
+                        if re[0] == b[2]:
+                            good = [(2, 0), (1, 0), (2, 1)]
+                        if re[0] == b[8]:
+                            good = [(0, 0), (0, 1), (1, 0)]
+                        if re[0] == b[6]:
+                            good = [(0, 2), (0, 1), (1, 2)]
+                        return choice(good)
                     best = []
                     for i in corner:
                         if i[0] != re[1][0] and i[1] != re[1][1] and (i[0] == re[0][0] or i[1] == re[0][1]):
                             best.append(i)
-                    r = list(set(best).intersection(possible_moves))
+                    r = list(set(best).intersection(possible))
                     if r:
-                        return r[0]
+                        return choice(r)
                     else:
-                        return list(set(corner).intersection(possible_moves))[randint(0, 1)]
+                        return choice(list(set(corner).intersection(possible)))
             else:
                 if len(re) == 1:
-                    if re[0] == [1, 1]:
-                        return corner[randint(0, 3)]
+                    if re[0] == (1, 1):
+                        return choice(corner)
                     else:
                         return 1, 1
 
-        def winning_position():
-            win_pos = []
+        def winning():
+            win = []
             if self.shape == 'X':
-                typ = 2
+                c = 2
             else:
-                typ = 20
+                c = 20
             for i in range(8):
-                if check_all_lines[i] == typ:
+                if check_all_lines[i] == c:
                     if i == 0:
-                        win_pos = [(0, 0), (0, 1), (0, 2)]
+                        win = [b[0], b[1], b[2]]
                     if i == 1:
-                        win_pos = [(1, 0), (1, 1), (1, 2)]
+                        win = [b[3], b[4], b[5]]
                     if i == 2:
-                        win_pos = [(2, 0), (2, 1), (2, 2)]
+                        win = [b[6], b[7], b[8]]
                     if i == 3:
-                        win_pos = [(0, 0), (1, 0), (2, 0)]
+                        win = [b[0], b[3], b[6]]
                     if i == 4:
-                        win_pos = [(0, 1), (1, 1), (2, 1)]
+                        win = [b[1], b[4], b[7]]
                     if i == 5:
-                        win_pos = [(0, 2), (1, 2), (2, 2)]
+                        win = [b[2], b[5], b[8]]
                     if i == 6:
-                        win_pos = [(0, 0), (1, 1), (2, 2)]
+                        win = [b[0], b[4], b[8]]
                     if i == 7:
-                        win_pos = [(2, 0), (1, 1), (0, 2)]
-                    return list(set(win_pos).intersection(possible_moves))[0]
+                        win = [b[2], b[4], b[6]]
+                    return choice(list(set(win).intersection(possible)))
 
-        def losing_position():
-            lose_pos = []
+        def losing():
+            lose = []
             if self.shape == 'X':
                 typ = 20
             else:
@@ -80,139 +102,137 @@ class AI:
             for i in range(8):
                 if check_all_lines[i] == typ:
                     if i == 0:
-                        lose_pos = [(0, 0), (0, 1), (0, 2)]
+                        lose = [b[0], b[1], b[2]]
                     if i == 1:
-                        lose_pos = [(1, 0), (1, 1), (1, 2)]
+                        lose = [b[3], b[4], b[5]]
                     if i == 2:
-                        lose_pos = [(2, 0), (2, 1), (2, 2)]
+                        lose = [b[6], b[7], b[8]]
                     if i == 3:
-                        lose_pos = [(0, 0), (1, 0), (2, 0)]
+                        lose = [b[0], b[3], b[6]]
                     if i == 4:
-                        lose_pos = [(0, 1), (1, 1), (2, 1)]
+                        lose = [b[1], b[4], b[7]]
                     if i == 5:
-                        lose_pos = [(0, 2), (1, 2), (2, 2)]
+                        lose = [b[2], b[5], b[8]]
                     if i == 6:
-                        lose_pos = [(0, 0), (1, 1), (2, 2)]
+                        lose = [b[0], b[4], b[8]]
                     if i == 7:
-                        lose_pos = [(2, 0), (1, 1), (0, 2)]
-                    return list(set(lose_pos).intersection(possible_moves))[0]
+                        lose = [b[2], b[4], b[6]]
+                    return choice(list(set(lose).intersection(possible)))
 
-        def defend_move():
-            weak_pos = []
-            critical_pos = []
+        def attack():
+            good = []
+            best = []
             if self.shape == 'X':
-                typ = 10
+                c = 1
             else:
-                typ = 1
+                c = 10
             for i in range(8):
-                if check_all_lines[i] == typ:
+                if check_all_lines[i] == c:
                     if i == 0:
-                        weak_pos.append((0, 0))
-                        weak_pos.append((0, 1))
-                        weak_pos.append((0, 2))
+                        good.append(b[0])
+                        good.append(b[1])
+                        good.append(b[2])
                     if i == 1:
-                        weak_pos.append((1, 0))
-                        weak_pos.append((1, 1))
-                        weak_pos.append((1, 2))
+                        good.append(b[3])
+                        good.append(b[4])
+                        good.append(b[5])
                     if i == 2:
-                        weak_pos.append((2, 0))
-                        weak_pos.append((2, 1))
-                        weak_pos.append((2, 2))
+                        good.append(b[6])
+                        good.append(b[7])
+                        good.append(b[8])
                     if i == 3:
-                        weak_pos.append((0, 0))
-                        weak_pos.append((1, 0))
-                        weak_pos.append((2, 0))
+                        good.append(b[0])
+                        good.append(b[3])
+                        good.append(b[6])
                     if i == 4:
-                        weak_pos.append((0, 1))
-                        weak_pos.append((1, 1))
-                        weak_pos.append((2, 1))
+                        good.append(b[1])
+                        good.append(b[4])
+                        good.append(b[7])
                     if i == 5:
-                        weak_pos.append((0, 2))
-                        weak_pos.append((1, 2))
-                        weak_pos.append((2, 2))
+                        good.append(b[2])
+                        good.append(b[5])
+                        good.append(b[8])
                     if i == 6:
-                        weak_pos.append((0, 0))
-                        weak_pos.append((1, 1))
-                        weak_pos.append((2, 2))
+                        good.append(b[0])
+                        good.append(b[4])
+                        good.append(b[8])
                     if i == 7:
-                        weak_pos.append((2, 0))
-                        weak_pos.append((1, 1))
-                        weak_pos.append((0, 2))
-            check = list(set(weak_pos).intersection(possible_moves))
+                        good.append(b[2])
+                        good.append(b[4])
+                        good.append(b[6])
+            check = list(set(good).intersection(possible))
             if check:
                 m = 0
                 for i in check:
-                    k = weak_pos.count(i)
+                    k = good.count(i)
                     if k > m:
                         m = k
-                for i in check:
-                    if weak_pos.count(i) == m:
-                        critical_pos.append(i)
-                if len(critical_pos) == 1:
-                    return critical_pos[0]
-                else:
-                    t = list(x for x in possible_moves if x not in critical_pos)
-                    return t[randint(0, len(t) - 1)]
+                if m > 1:
+                    for i in check:
+                        if good.count(i) == m:
+                            best.append(i)
+                    return choice(best)
 
-        def attack_move():
-            good_pos = []
-            best_pos = []
+        def defend():
+            weak = []
+            critical = []
             if self.shape == 'X':
-                typ = 1
+                c = 10
             else:
-                typ = 10
+                c = 1
             for i in range(8):
-                if check_all_lines[i] == typ:
+                if check_all_lines[i] == c:
                     if i == 0:
-                        good_pos.append((0, 0))
-                        good_pos.append((0, 1))
-                        good_pos.append((0, 2))
+                        weak.append(b[0])
+                        weak.append(b[1])
+                        weak.append(b[2])
                     if i == 1:
-                        good_pos.append((1, 0))
-                        good_pos.append((1, 1))
-                        good_pos.append((1, 2))
+                        weak.append(b[3])
+                        weak.append(b[4])
+                        weak.append(b[5])
                     if i == 2:
-                        good_pos.append((2, 0))
-                        good_pos.append((2, 1))
-                        good_pos.append((2, 2))
+                        weak.append(b[6])
+                        weak.append(b[7])
+                        weak.append(b[8])
                     if i == 3:
-                        good_pos.append((0, 0))
-                        good_pos.append((1, 0))
-                        good_pos.append((2, 0))
+                        weak.append(b[0])
+                        weak.append(b[3])
+                        weak.append(b[6])
                     if i == 4:
-                        good_pos.append((0, 1))
-                        good_pos.append((1, 1))
-                        good_pos.append((2, 1))
+                        weak.append(b[1])
+                        weak.append(b[4])
+                        weak.append(b[7])
                     if i == 5:
-                        good_pos.append((0, 2))
-                        good_pos.append((1, 2))
-                        good_pos.append((2, 2))
+                        weak.append(b[2])
+                        weak.append(b[5])
+                        weak.append(b[8])
                     if i == 6:
-                        good_pos.append((0, 0))
-                        good_pos.append((1, 1))
-                        good_pos.append((2, 2))
+                        weak.append(b[0])
+                        weak.append(b[4])
+                        weak.append(b[8])
                     if i == 7:
-                        good_pos.append((2, 0))
-                        good_pos.append((1, 1))
-                        good_pos.append((0, 2))
-            check = list(set(good_pos).intersection(possible_moves))
+                        weak.append(b[2])
+                        weak.append(b[4])
+                        weak.append(b[6])
+            check = list(set(weak).intersection(possible))
             if check:
                 m = 0
                 for i in check:
-                    k = good_pos.count(i)
+                    k = weak.count(i)
                     if k > m:
                         m = k
-                for i in check:
-                    if good_pos.count(i) == m:
-                        best_pos.append(i)
-                return best_pos[randint(0, len(best_pos) - 1)]
+                if m > 1:
+                    for i in check:
+                        if weak.count(i) == m:
+                            critical.append(i)
+                    return choice(critical)
 
-        def random_ai():
-            return possible_moves[randint(0, len(possible_moves) - 1)]
+        def random():
+            return choice(possible)
 
         return opening() or \
-               winning_position() or \
-               losing_position() or \
-               defend_move() or \
-               attack_move() or \
-               random_ai()
+               winning() or \
+               losing() or \
+               attack() or \
+               defend() or \
+               random()
