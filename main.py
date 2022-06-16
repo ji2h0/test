@@ -59,7 +59,7 @@ class Board(GridLayout):
             self.grid[y][x].font_size = Window.height / 6.1
             self.grid[y][x].color = (25/255, 25/255, 25/255)
             data[x][y] = 1
-            re.append([x, y])
+            re.append((x, y))
 
     def draw_tiles(self):
 
@@ -120,7 +120,7 @@ class Board(GridLayout):
     def pressed1(self, instance):
         if instance.text:
             return None
-        re.append([0, 0])
+        re.append((0, 0))
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[0][0] = 1
@@ -129,22 +129,22 @@ class Board(GridLayout):
             data[0][0] = 10
             instance.color = (220/255, 220/255, 220/255)
 
-        if not self.is_finished(instance, 0, 0):
+        if not self.is_finished():
             (x, y) = self.bot.move(data, re)
             self.grid[y][x].text = next(self.shapes)
-            re.append([x, y])
+            re.append((x, y))
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
                 self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
-            self.is_finished(self.grid[y][x], x, y)
+            self.is_finished()
 
     def pressed2(self, instance):
         if instance.text:
             return None
-        re.append([0, 1])
+        re.append((0, 1))
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[0][1] = 1
@@ -153,22 +153,22 @@ class Board(GridLayout):
             data[0][1] = 10
             instance.color = (220/255, 220/255, 220/255)
 
-        if not self.is_finished(instance, 0, 1):
+        if not self.is_finished():
             (x, y) = self.bot.move(data, re)
             self.grid[y][x].text = next(self.shapes)
-            re.append([x, y])
+            re.append((x, y))
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
                 self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
-            self.is_finished(self.grid[y][x], x, y)
+            self.is_finished()
 
     def pressed3(self, instance):
         if instance.text:
             return None
-        re.append([0, 2])
+        re.append((0, 2))
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[0][2] = 1
@@ -177,22 +177,22 @@ class Board(GridLayout):
             data[0][2] = 10
             instance.color = (220/255, 220/255, 220/255)
 
-        if not self.is_finished(instance, 0, 2):
+        if not self.is_finished():
             (x, y) = self.bot.move(data, re)
             self.grid[y][x].text = next(self.shapes)
-            re.append([x, y])
+            re.append((x, y))
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
                 self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
-            self.is_finished(self.grid[y][x], x, y)
+            self.is_finished()
 
     def pressed4(self, instance):
         if instance.text:
             return None
-        re.append([1, 0])
+        re.append((1, 0))
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[1][0] = 1
@@ -201,22 +201,22 @@ class Board(GridLayout):
             data[1][0] = 10
             instance.color = (220/255, 220/255, 220/255)
 
-        if not self.is_finished(instance, 1, 0):
+        if not self.is_finished():
             (x, y) = self.bot.move(data, re)
             self.grid[y][x].text = next(self.shapes)
-            re.append([x, y])
+            re.append((x, y))
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
                 self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
-            self.is_finished(self.grid[y][x], x, y)
+            self.is_finished()
 
     def pressed5(self, instance):
         if instance.text:
             return None
-        re.append([1, 1])
+        re.append((1, 1))
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[1][1] = 1
@@ -225,22 +225,22 @@ class Board(GridLayout):
             data[1][1] = 10
             instance.color = (220/255, 220/255, 220/255)
 
-        if not self.is_finished(instance, 1, 1):
+        if not self.is_finished():
             (x, y) = self.bot.move(data, re)
             self.grid[y][x].text = next(self.shapes)
-            re.append([x, y])
+            re.append((x, y))
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
                 self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
-            self.is_finished(self.grid[y][x], x, y)
+            self.is_finished()
 
     def pressed6(self, instance):
         if instance.text:
             return None
-        re.append([1, 2])
+        re.append((1, 2))
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[1][2] = 1
@@ -249,22 +249,22 @@ class Board(GridLayout):
             data[1][2] = 10
             instance.color = (220/255, 220/255, 220/255)
 
-        if not self.is_finished(instance, 1, 2):
+        if not self.is_finished():
             (x, y) = self.bot.move(data, re)
             self.grid[y][x].text = next(self.shapes)
-            re.append([x, y])
+            re.append((x, y))
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
                 self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
-            self.is_finished(self.grid[y][x], x, y)
+            self.is_finished()
 
     def pressed7(self, instance):
         if instance.text:
             return None
-        re.append([2, 0])
+        re.append((2, 0))
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[2][0] = 1
@@ -273,22 +273,22 @@ class Board(GridLayout):
             data[2][0] = 10
             instance.color = (220/255, 220/255, 220/255)
 
-        if not self.is_finished(instance, 2, 0):
+        if not self.is_finished():
             (x, y) = self.bot.move(data, re)
             self.grid[y][x].text = next(self.shapes)
-            re.append([x, y])
+            re.append((x, y))
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
                 self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
-            self.is_finished(self.grid[y][x], x, y)
+            self.is_finished()
 
     def pressed8(self, instance):
         if instance.text:
             return None
-        re.append([2, 1])
+        re.append((2, 1))
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[2][1] = 1
@@ -297,22 +297,22 @@ class Board(GridLayout):
             data[2][1] = 10
             instance.color = (220/255, 220/255, 220/255)
 
-        if not self.is_finished(instance, 2, 1):
+        if not self.is_finished():
             (x, y) = self.bot.move(data, re)
             self.grid[y][x].text = next(self.shapes)
-            re.append([x, y])
+            re.append((x, y))
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
                 self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220 / 255, 220 / 255, 220 / 255)
-            self.is_finished(self.grid[y][x], x, y)
+            self.is_finished()
 
     def pressed9(self, instance):
         if instance.text:
             return None
-        re.append([2, 2])
+        re.append((2, 2))
         instance.text = next(self.shapes)
         if instance.text == 'X':
             data[2][2] = 1
@@ -321,31 +321,31 @@ class Board(GridLayout):
             data[2][2] = 10
             instance.color = (220/255, 220/255, 220/255)
 
-        if not self.is_finished(instance, 2, 2):
+        if not self.is_finished():
             (x, y) = self.bot.move(data, re)
             self.grid[y][x].text = next(self.shapes)
-            re.append([x, y])
+            re.append((x, y))
             if self.grid[y][x].text == 'X':
                 data[x][y] = 1
                 self.grid[y][x].color = (25/255, 25/255, 25/255)
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220 / 255, 220 / 255, 220 / 255)
-            self.is_finished(self.grid[y][x], x, y)
+            self.is_finished()
 
-    def is_finished(self, instance, x, y):
+    def is_finished(self):
 
-        winner = self.get_winner(instance, x, y)
+        outcome = self.bot.outcome(data)
 
-        if winner:
+        if outcome == 'Defeat':
+            who_win[1] += 1
+        elif outcome == 'Victory':
+            who_win[0] += 1
+
+        if outcome:
             content = BoxLayout(orientation='vertical')
-            if winner == 'D':
-                content.add_widget(Label(text='      Draw\nYou : %d  AI : %d' % (who_win[0], who_win[1]),
-                                         font_name=fontName, font_size=25))
-            else:
-                content.add_widget(Label(text='      %s won\nYou : %d  AI : %d' % (winner, who_win[0], who_win[1]),
-                                         font_name=fontName, font_size=25))
-            close_button = Button(text='Play Again', font_name=fontName, font_size=25)
+            content.add_widget(Label(text='     %s\nYou : %d  AI : %d' % (outcome, who_win[0], who_win[1]), font_name=fontName, font_size=14))
+            close_button = Button(text='Play Again', font_name=fontName, font_size=14)
             content.add_widget(close_button)
 
             popup = Popup(title='Game Over', content=content, auto_dismiss=False,
@@ -355,34 +355,6 @@ class Board(GridLayout):
             return True
         else:
             return False
-
-    def get_winner(self, instance, x, y):
-        if instance.text == 'X':
-            c = 1
-        else:
-            c = 10
-        mx = [1, 1, 0, -1, -1, -1, 0, 1]
-        my = [0, 1, 1, 1, 0, -1, -1, -1]
-        for _ in range(8):
-            cnt = 0
-            if 0 <= x + mx[_] < 3 and 0 <= y + my[_] < 3 and data[x + mx[_]][y + my[_]] == c:
-                for i in range(2, -3, -1):
-                    if 0 <= x + i * mx[_] < 3 and 0 <= y + i * my[_] < 3 and data[x + i * mx[_]][y + i * my[_]] == c:
-                        cnt += 1
-                        if cnt == 3:
-                            if instance.text == self.bot.shape:
-                                who_win[1] += 1
-                                return 'AI'
-                            else:
-                                who_win[0] += 1
-                                return 'You'
-                    else:
-                        cnt = 0
-        for i in data:
-            for j in i:
-                if j == 0:
-                    return None
-        return 'D'
 
     def restart_board(self, *args):
         args[0].dismiss()
