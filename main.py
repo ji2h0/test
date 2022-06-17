@@ -7,24 +7,24 @@ from kivy.uix.popup import Popup
 from kivy.core.window import Window
 from ai import AI
 
-fontName = 'Dongle-Light.ttf'
-Window.clearcolor = (204/255, 204/255, 1)
+fontName = 'Dongle-Light.ttf' # 폰트 설정
+Window.clearcolor = (204/255, 204/255, 1) # 바탕색 설정
 
 SHAPES = ('X', 'O')
 
 
-who_win = [0, 0]
-data = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-re = []
+who_win = [0, 0] # 승패 기록 리스트
+data = [[0, 0, 0], [0, 0, 0], [0, 0, 0]] # 보드의 상태 기록 리스트
+re = [] # 몇 수에 어디뒀는지 기록하는 리스트
 
 
-def turn_generator():
+def turn_generator(): # 턴 제너레이터
     while 1:
         for shape in SHAPES:
             yield shape
 
 
-def first_generator():
+def first_generator(): # 유저가 O, X를 번갈아가며 하게 하는 제너레이터
     while 1:
         for first in (0, 1):
             yield first
@@ -51,9 +51,9 @@ class Board(GridLayout):
         self.initial_player()
 
     def initial_player(self):
-        self.bot = AI(SHAPES[next(self.first)])
+        self.bot = AI(SHAPES[next(self.first)]) # 봇이 X할지 O할지 제너레이터에서 가져옴
 
-        if self.bot.shape == 'X':
+        if self.bot.shape == 'X': # 봇이 X일 경우 봇이 먼저 첫 수를 둠
             (x, y) = self.bot.move(data, re)
             self.grid[y][x].text = next(self.shapes)
             self.grid[y][x].font_size = Window.height / 6.1
@@ -61,7 +61,7 @@ class Board(GridLayout):
             data[x][y] = 1
             re.append((x, y))
 
-    def draw_tiles(self):
+    def draw_tiles(self): # 9개의 버튼 중 무엇이 눌렸는지에 따라 다른 역할 수행
 
         tile1 = Button(background_normal='', background_color=(153/255, 153/255, 1),
                        font_size=Window.height / 6.1, font_name=fontName)
@@ -117,7 +117,7 @@ class Board(GridLayout):
         self.grid[2][2] = tile9
         self.add_widget(tile9)
 
-    def pressed1(self, instance):
+    def pressed1(self, instance): # 눌린 버튼의 위치에 따라 data 값을 변경해주고 re에 추가해줌
         if instance.text:
             return None
         re.append((0, 0))
@@ -129,7 +129,7 @@ class Board(GridLayout):
             data[0][0] = 10
             instance.color = (220/255, 220/255, 220/255)
 
-        if not self.is_finished():
+        if not self.is_finished(): # 게임이 안 끝났다면 move 함수에서 리턴해온 값을 data에 반영해주고 re에 추가함
             (x, y) = self.bot.move(data, re)
             self.grid[y][x].text = next(self.shapes)
             re.append((x, y))
@@ -139,7 +139,7 @@ class Board(GridLayout):
             else:
                 data[x][y] = 10
                 self.grid[y][x].color = (220/255, 220/255, 220/255)
-            self.is_finished()
+            self.is_finished() # 게임이 끝났는지 확인함
 
     def pressed2(self, instance):
         if instance.text:
@@ -337,26 +337,26 @@ class Board(GridLayout):
 
         outcome = self.bot.outcome(data)
 
-        if outcome == 'Defeat':
+        if outcome == 'Defeat': # outcome 함수의 리턴값에 따라 who_win에 변경 값(누가 이겼는지) 반영
             who_win[1] += 1
         elif outcome == 'Victory':
             who_win[0] += 1
 
         if outcome:
             content = BoxLayout(orientation='vertical')
-            content.add_widget(Label(text='     %s\nYou : %d  AI : %d' % (outcome, who_win[0], who_win[1]), font_name=fontName, font_size=14))
-            close_button = Button(text='Play Again', font_name=fontName, font_size=14)
+            content.add_widget(Label(text='     %s\nYou : %d  AI : %d' % (outcome, who_win[0], who_win[1]), font_name=fontName, font_size=50))
+            close_button = Button(text='Play Again', font_name=fontName, font_size=50)
             content.add_widget(close_button)
 
             popup = Popup(title='Game Over', content=content, auto_dismiss=False,
                           size_hint=(.4, .4))
             popup.open()
-            close_button.bind(on_release=lambda *args: self.restart_board(popup, *args))
+            close_button.bind(on_release=lambda *args: self.restart_board(popup, *args)) # restart_board 함수 호출
             return True
         else:
             return False
 
-    def restart_board(self, *args):
+    def restart_board(self, *args): # re, data, grid 등을 초기 상태로 변경하고 다음 게임이 X부터 시작하도록 필요한 만큼(1번 or 2번) 턴 제너레이터 호출
         args[0].dismiss()
         re.clear()
         for i in range(3):
